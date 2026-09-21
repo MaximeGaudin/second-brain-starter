@@ -1,65 +1,187 @@
 ---
 name: to-pdf
-description: Turns a markdown document into a designed PDF using Typst. Use when I say "make this a PDF", "export this properly" or "send me a clean version".
+description: Convert a markdown document to a polished PDF using Typst. Use when the user asks to generate a PDF, export to PDF, make a document printable, or wants a clean PDF version of a markdown file.
 ---
 
 # Markdown to PDF
 
-Word processors are where documents go to look like everyone else's. This renders markdown through Typst instead, so the layout lives in code, the content stays plain text, and the same document can be regenerated the day the numbers change.
+Convert markdown documents to polished, well-designed PDFs using Typst.
 
-## Once, before the first run
+Word processors are not in this loop. The source of truth is a markdown file in the knowledge base; the PDF is a build artifact you can regenerate at any time.
 
-Check the toolchain and install what is missing:
+## Toolchain
 
-- `typst` — the typesetter. `brew install typst`, or see typst.app/docs for other systems.
-- `mmdc` — only needed if documents contain diagrams. `npm install -g @mermaid-js/mermaid-cli`
+| Tool | Purpose | Install |
+|------|---------|---------|
+| typst | PDF compilation | `brew install typst` |
+| mmdc | Mermaid diagram rendering | `npm install -g @mermaid-js/mermaid-cli` |
 
-Then look for `templates/document.typ` in this folder. If it is not there, write one and show it to me before you use it. Ask me first for:
+Only install `mmdc` if the document actually contains mermaid blocks.
 
-- my name and how I want to be credited in the footer
-- one accent colour
-- whether documents carry a logo, and where the file is
-- the font I want, or say you will use a system one
+## Workflow
 
-The template defines page geometry, heading styles, a cover, a running header and footer, and three helpers used by every document: a page-constrained figure, a callout box, and an inline badge. Write those helpers once, use them everywhere.
+### Step 1: Render mermaid diagrams (if any)
 
-## Every run
+Extract each `mermaid` code block from the source markdown into a `.mmd` file in a `diagrams/` folder next to the output `.typ` file.
 
-**1. Diagrams first.** Extract every `mermaid` block into `diagrams/<name>.mmd` and render each to a vector PDF:
+#### Mermaid theme
 
-```bash
-mmdc -i diagrams/flow.mmd -o diagrams/flow.pdf -b white -f
+Every `.mmd` file must start with an init directive so all diagrams in a document look like they belong together. Set `primaryColor` and `primaryBorderColor` to your accent colour:
+
+```
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#1a56db', 'primaryBorderColor': '#1a56db', 'primaryTextColor': '#fff', 'lineColor': '#64748b', 'secondaryColor': '#f1f5f9', 'tertiaryColor': '#e2e8f0', 'tertiaryTextColor': '#1e293b', 'edgeLabelBackground': '#ffffff', 'fontSize': '14px'}}}%%
 ```
 
-Vector PDF, not PNG and not SVG. PNG scales badly in print; Typst cannot render the text inside a mermaid SVG because it comes out as `foreignObject`. The `-f` flag fits the diagram onto one page — without it you get a multi-page PDF and Typst shows only the first, which is often blank.
+Key rules for node text:
+- Use `<br>` for line breaks inside nodes (never `\n` — Mermaid renders it literally).
+- Avoid parentheses inside node labels — Mermaid interprets them as shape syntax and the parse fails.
+- Wrap node labels in `["..."]` for consistent rectangular shapes.
 
-If a diagram has more than about ten nodes, split it into several rather than producing one tall narrow strip nobody can read.
+#### Rendering to vector PDF
 
-**2. Translate the markdown.**
+Generate single-page vector PDFs, not PNGs or SVGs. SVGs use `foreignObject` for text, which Typst cannot render; PNGs are raster and scale poorly.
+
+```bash
+mmdc -i diagrams/my-diagram.mmd -o diagrams/my-diagram.pdf -b white -f
+```
+
+Flags:
+- `-b white` — white background (transparent backgrounds cause issues in PDF viewers).
+- `-f` (`--pdfFit`) — scale the diagram to fit on a single PDF page. Without this flag, `mmdc` often produces multi-page PDFs where Typst only displays the first page, which may be partial or blank.
+
+Batch-render all diagrams:
+
+```bash
+for f in diagrams/*.mmd; do
+  mmdc -i "$f" -o "${f%.mmd}.pdf" -b white -f
+done
+```
+
+#### Splitting large diagrams
+
+If a single diagram has more than ~8–10 nodes and flows vertically, it will produce a very tall, narrow PDF. Even with `page-fig`, readability suffers. Split it into stage-specific diagrams and render each separately.
+
+### Step 2: Write the Typst document
+
+Copy `template.typ` from this skill's folder next to the output `.typ` file. If you are using a custom logo or bundled fonts, put `assets/` and `fonts/` at the same level, flat.
+
+Minimal document structure:
+
+```typst
+#import "template.typ": *
+
+#show: doc => setup(
+  title: "Document Title",
+  subtitle: "Context or team",
+  date: "Feb 18, 2026",
+  doc,
+)
+
+== First section
+
+Content here.
+```
+
+### Making the template yours — once, not per document
+
+The first time this skill runs in a knowledge base, ask the user four questions and bake the answers into `template.typ`:
+
+1. **Name or organisation** for the cover and footer.
+2. **One accent colour** (hex). Set `accent-color` at the top of the template.
+3. **A logo file**, if they have one. SVG preferred. Put it in `assets/` and pass `logo: "assets/logo.svg"` to `setup()`.
+4. **A font.** Any font installed on the machine works — set `body-font` and `display-font` at the top of the template. If they hand you `.ttf` files, drop them in `fonts/` and compile with `--font-path fonts`.
+
+After that, every document reuses the same template and nobody answers those questions again. If a later document genuinely needs a different identity, copy the template and say so explicitly rather than silently mutating the shared one.
+
+### Branding — on by default
+
+Every document gets a full-bleed cover band on page 1: optional logo top-left, then the title and the subtitle/date line centred, all inside the band. Interior pages get a plain running header (title left, date right) and a page counter in the footer. Typography is sentence case with no bold headings — size and colour carry the hierarchy, not weight. The default `band` tone is `"neutral"` (light paper gray).
+
+Tune it via `setup()` params — all optional:
+
+```typst
+#show: doc => setup(
+  title: "Document Title",
+  subtitle: "Context or team",
+  date: "Feb 18, 2026",
+  band: "neutral",         // "neutral" | "accent" | "ink" (dark reversed)
+  logo: "assets/logo.svg",
+  footer-logo: "assets/mark.svg",
+  doc,
+)
+```
+
+If you change the band height, move the trailing `v(...)` in `cover-band` by the same amount — it is what pushes body content clear of the band.
+
+### Step 3: Translate markdown to Typst
+
+Mapping reference:
 
 | Markdown | Typst |
-|---|---|
+|----------|-------|
 | `# H1` | `= H1` |
 | `## H2` | `== H2` |
 | `**bold**` | `*bold*` |
 | `*italic*` | `_italic_` |
 | `[text](url)` | `#link("url")[text]` |
-| `![alt](img.png)` | the figure helper, never raw `#image` |
+| `![alt](img.png)` | `#page-fig("img.png", [alt])` |
+| `\|table\|` | `#table(columns: (...), [...], [...])` |
+| `` `code` `` | `` `code` `` |
+| `- item` | `- item` |
 | `1. item` | `+ item` |
-| table | `#table(columns: (...), [...])` |
+| page break | `#pagebreak()` |
 
-**3. Compile**, passing the font path if the template ships its own fonts:
+Available helpers from the template:
 
-```bash
-typst compile --font-path fonts document.typ document.pdf
+```typst
+// Page-constrained figure (diagrams and images)
+// As wide as possible, never taller than remaining page height.
+// Use for ALL diagram/image inclusions.
+#page-fig("diagrams/flow.pdf", [Caption text here])
+
+// Highlighted callout box (blue, green, amber, red)
+#callout(accent: green)[*Key point.* Supporting text.]
+
+// Inline status badge
+#badge("DONE", green)
+#badge("PENDING", amber)
+#badge("BLOCKED", red)
+
+// Separator page between major sections
+#divider-page("Technical Appendix", subtitle: "Detailed implementation notes follow.")
 ```
 
-**4. Open it and actually look at it.** A heading stranded at the bottom of a page, a figure broken across two, a table running off the edge — fix those before telling me it is done. Do not hand me a PDF you have not read.
+`page-fig` measures the image at full available width and compares its natural height to the remaining page height. If it fits, it renders at full width. If it would overflow, it constrains by height instead. This handles both wide/short and tall/narrow diagrams automatically — no manual sizing needed.
 
-## Rules
+### Step 4: Compile
 
-- No cover page and no table of contents unless I asked for them. Most documents are three pages and need neither.
-- Every image and diagram goes through the figure helper. It is what keeps them inside the page instead of overflowing it.
-- Callouts are for the one thing I must not miss, not for every paragraph. If everything is highlighted, nothing is.
-- If a claim in the document has no source in my files, mark it TO CHECK in the output rather than quietly dropping it or filling the gap from general knowledge.
-- Keep the `.typ` next to the source markdown and commit both. The PDF is a build artifact; the markdown is the document.
+```bash
+typst compile output.typ output.pdf
+```
+
+If you bundled `.ttf` files in `fonts/`, pass `--font-path` so Typst finds them instead of falling back to a system font:
+
+```bash
+typst compile --font-path fonts output.typ output.pdf
+```
+
+Place the `.typ` and `.pdf` next to the source markdown file, with `assets/` and `fonts/` alongside them if used.
+
+### Step 5: Look at it
+
+Compiling without errors is not the same as looking right. Render the pages to images and actually inspect them before telling the user it is done:
+
+```bash
+typst compile --format png --ppi 120 output.typ "preview-{p}.png"
+```
+
+Check for: diagrams pushed onto a page of their own with a blank page behind them, tables running past the margin, a heading orphaned at the bottom of a page, and a cover band that crops the title. Fix, recompile, look again.
+
+## Style guidelines
+
+- Keep it light: no formal cover pages or tables of contents unless explicitly asked.
+- The title lives in the cover band on page 1, followed immediately by content.
+- Use callout boxes sparingly, for key takeaways, not for every paragraph.
+- Use badges for status indicators in tables.
+- Use `#divider-page(...)` to separate major document parts, for example an executive summary from a technical appendix.
+- One accent colour per document. If everything is highlighted, nothing is.

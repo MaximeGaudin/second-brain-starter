@@ -12,7 +12,7 @@ You do not need to clone anything, and you do not need to copy and paste these f
 Install the daily-routine skill from github.com/MaximeGaudin/second-brain-starter
 ```
 
-It will fetch the file and write it to `.cursor/skills/daily-routine/SKILL.md`. Same line for any other skill — swap the name.
+It will fetch the file and write it to `.cursor/skills/daily-routine/SKILL.md`. Same line for any other skill — swap the name. Two of them ship more than a `SKILL.md`, so let the agent copy the whole folder: `to-pdf` carries a `template.typ`, and `dynamic-presentation` carries `reference.md` and `examples.md`.
 
 To get everything at once:
 
@@ -35,8 +35,8 @@ Build them in this order. Each one assumes the one before it exists.
 |---|---|
 | `daily-routine` | The big one. Syncs every source into the folder, triages what arrived, drafts the replies, reports in five lines. |
 | `build-a-document` | Gathers sources, makes you approve them, and only then writes. Hands the markdown off to render. |
-| `to-pdf` | Renders markdown into a designed PDF through Typst, diagrams included. |
-| `dynamic-presentation` | Builds an animated deck as a small React app, one file per slide. |
+| `to-pdf` | Renders markdown into a designed PDF through Typst, diagrams included. Ships the Typst template. |
+| `dynamic-presentation` | Builds an animated deck as a small React app, one file per slide. Ships the component reference and the slide patterns. |
 | `morning-brief` | Calls `daily-routine` and reads its report out loud. |
 | `draft-reply` | Writes replies in the voice defined in `me/tone-of-voice.md`. |
 | `what-is-next` | Ranks what to work on, using your ranking order rather than a generic one. |
@@ -45,7 +45,9 @@ They call each other rather than growing into one enormous prompt: `morning-brie
 
 `draft-reply` and `what-is-next` are the two the workshop does not have time for. They work the same way.
 
-Everything you saw during the session — the slides and the example PDF — came out of `dynamic-presentation` and `to-pdf`.
+Everything you saw during the session — the slides and the example PDF — came out of `dynamic-presentation` and `to-pdf`. These are the real skills, not summaries of them: the hard-won parts are in there, including the GSAP gotchas that cost an afternoon each and the mermaid flags without which diagrams silently render blank.
+
+The first time you run `to-pdf` it asks for a name, an accent colour, a logo and a font, writes them into `template.typ`, and never asks again.
 
 `me/tone-of-voice.md` is not a skill. It is a single file describing how you write, which `draft-reply` and anything else that writes for you reads every time.
 
