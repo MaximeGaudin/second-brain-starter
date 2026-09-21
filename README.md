@@ -9,10 +9,10 @@ A second brain is a folder of markdown files and an agent that can read it. No d
 You do not need to clone anything, and you do not need to copy and paste these files by hand. Open your second-brain folder in Cursor and tell the agent:
 
 ```
-Install the clean-noise skill from github.com/MaximeGaudin/second-brain-starter
+Install the daily-routine skill from github.com/MaximeGaudin/second-brain-starter
 ```
 
-It will fetch the file and write it to `.cursor/skills/clean-noise/SKILL.md`. Same line for any other skill — swap the name.
+It will fetch the file and write it to `.cursor/skills/daily-routine/SKILL.md`. Same line for any other skill — swap the name.
 
 To get everything at once:
 
