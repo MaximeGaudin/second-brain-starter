@@ -33,14 +33,13 @@ Build them in this order. Each one assumes the one before it exists.
 
 | Skill | What it does |
 |---|---|
-| `clean-noise` | Reads your mail, sorts it into noise, worth-one-line, and yours. Archives the first two once you approve. |
-| `daily-routine` | Calls `clean-noise`, then does the morning pass: calendar, what you owe, drafts, a five-line report. |
+| `daily-routine` | The big one. Syncs every source into the folder, triages what arrived, drafts the replies, reports in five lines. |
 | `build-a-document` | Gathers sources, makes you approve them, and only then writes. |
 | `morning-brief` | Calls `daily-routine` and reads its report out loud. |
 | `draft-reply` | Writes replies in the voice defined in `me/tone-of-voice.md`. |
 | `what-is-next` | Ranks what to work on, using your ranking order rather than a generic one. |
 
-The first four are the ones built during the workshop, and three of them chain: `clean-noise` gets data moving, `daily-routine` calls it, `morning-brief` calls `daily-routine`. That is the whole model — small files that call each other rather than one enormous prompt.
+The first three are the ones built during the workshop, and two of them chain: `morning-brief` calls `daily-routine` rather than redoing its work. That is the whole model — small files that call each other rather than one enormous prompt.
 
 `draft-reply` and `what-is-next` are the two we did not have time for. They work the same way.
 
