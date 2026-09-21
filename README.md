@@ -34,14 +34,18 @@ Build them in this order. Each one assumes the one before it exists.
 | Skill | What it does |
 |---|---|
 | `daily-routine` | The big one. Syncs every source into the folder, triages what arrived, drafts the replies, reports in five lines. |
-| `build-a-document` | Gathers sources, makes you approve them, and only then writes. |
+| `build-a-document` | Gathers sources, makes you approve them, and only then writes. Hands the markdown off to render. |
+| `to-pdf` | Renders markdown into a designed PDF through Typst, diagrams included. |
+| `dynamic-presentation` | Builds an animated deck as a small React app, one file per slide. |
 | `morning-brief` | Calls `daily-routine` and reads its report out loud. |
 | `draft-reply` | Writes replies in the voice defined in `me/tone-of-voice.md`. |
 | `what-is-next` | Ranks what to work on, using your ranking order rather than a generic one. |
 
-The first three are the ones built during the workshop, and two of them chain: `morning-brief` calls `daily-routine` rather than redoing its work. That is the whole model — small files that call each other rather than one enormous prompt.
+They call each other rather than growing into one enormous prompt: `morning-brief` calls `daily-routine`, and `build-a-document` never formats anything itself — it hands finished markdown to `to-pdf` or to `dynamic-presentation`. That indirection is the whole model. It is also why you can replace the renderer without touching the writing.
 
-`draft-reply` and `what-is-next` are the two we did not have time for. They work the same way.
+`draft-reply` and `what-is-next` are the two the workshop does not have time for. They work the same way.
+
+Everything you saw during the session — the slides and the example PDF — came out of `dynamic-presentation` and `to-pdf`.
 
 `me/tone-of-voice.md` is not a skill. It is a single file describing how you write, which `draft-reply` and anything else that writes for you reads every time.
 
