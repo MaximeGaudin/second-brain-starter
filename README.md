@@ -2,7 +2,7 @@
 
 Everything from the **Build Your Second Brain** workshop — AI Summit Barcelona 2026.
 
-A second brain is a folder of markdown files and an agent that can read it. No database, no app, nothing to migrate out of later. What follows is the folder scaffold and the six skills built during the session.
+A second brain is a folder of markdown files and an agent that can read it. No database, no app, nothing to migrate out of later. What follows is the folder scaffold and the skills built during the session.
 
 ## Fastest way to use this
 
