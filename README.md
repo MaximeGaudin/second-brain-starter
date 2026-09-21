@@ -37,13 +37,13 @@ Build them in this order. Each one assumes the one before it exists.
 | `build-a-document` | Gathers sources, makes you approve them, and only then writes. Hands the markdown off to render. |
 | `to-pdf` | Renders markdown into a designed PDF through Typst, diagrams included. Ships the Typst template. |
 | `dynamic-presentation` | Builds an animated deck as a small React app, one file per slide. Ships the component reference and the slide patterns. |
-| `morning-brief` | Calls `daily-routine` and reads its report out loud. |
 | `draft-reply` | Writes replies in the voice defined in `me/tone-of-voice.md`. |
 | `what-is-next` | Ranks what to work on, using your ranking order rather than a generic one. |
+| `morning-brief` | Calls `daily-routine` and reads its report out loud as an audio brief. |
 
-They call each other rather than growing into one enormous prompt: `morning-brief` calls `daily-routine`, and `build-a-document` never formats anything itself — it hands finished markdown to `to-pdf` or to `dynamic-presentation`. That indirection is the whole model. It is also why you can replace the renderer without touching the writing.
+They call each other rather than growing into one enormous prompt: `build-a-document` never formats anything itself — it hands finished markdown to `to-pdf` or to `dynamic-presentation`, and `morning-brief` does no triage of its own, it just reads `daily-routine`'s report out loud. That indirection is the whole model. It is also why you can replace the renderer without touching the writing.
 
-`draft-reply` and `what-is-next` are the two the workshop does not have time for. They work the same way.
+`draft-reply`, `what-is-next` and `morning-brief` are the ones the workshop does not have time for. They work exactly the same way, and `morning-brief` is the clearest example of one skill calling another if you want to see the pattern on its own.
 
 Everything you saw during the session — the slides and the example PDF — came out of `dynamic-presentation` and `to-pdf`. These are the real skills, not summaries of them: the hard-won parts are in there, including the GSAP gotchas that cost an afternoon each and the mermaid flags without which diagrams silently render blank.
 
