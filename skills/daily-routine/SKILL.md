@@ -44,7 +44,7 @@ If the brain has nothing on them, say so plainly instead of padding.
 
 ## 5. Draft, never send
 
-Write replies in my voice: short, direct, no hedging, no "I hope this finds you well". Match the language of the original message.
+Write it in the voice described in me/tone-of-voice.md. If that file does not exist yet: short, direct, no hedging, no "I hope this finds you well". Match the language of the original message either way.
 
 Leave everything as a draft. If you cannot answer without something I have not told you, say what is missing instead of guessing.
 
