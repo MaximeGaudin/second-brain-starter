@@ -1,23 +1,24 @@
 ---
 name: morning-brief
-description: Writes and voices my morning brief. Use when I say "morning brief", or run it on a schedule.
+description: Reads my daily routine out loud. Use when I say "morning brief", or run it on a schedule.
 ---
 
 # Morning brief
 
-Every weekday at 06:00, write a script:
+Every weekday at 06:00, run the daily-routine skill.
 
-1. today's calendar, in one sentence per meeting
-2. anything due in the next three days
-3. what moved in my projects since yesterday
-4. one thing I said I would do and have not
+Do not redo its work. It already read the calendar, triaged the sources, wrote the drafts and produced the report. Your job is to turn that report into something I can listen to.
 
-Write it to be spoken, not read. Short sentences. Address me by name. Never read out a list of links.
+## The script
 
-Aim for what I can listen to while making coffee — under five minutes. If there is more than that, it means you are reading me a list instead of telling me what matters.
+Lead with what needs me today, hardest first. Then what you drafted overnight and where I will find it. Close with the one thing I said I would do and have not.
 
-Then send the script to text-to-speech and save the mp3.
+Spoken, not read. Short sentences. Use my name. Never read out a link or a list of identifiers — if I need it, it is in the report I can open.
 
-## Get the script right first
+Under five minutes. That is what I can hear while making coffee. If there is more than that, you are reading me a list instead of telling me what matters.
 
-Before you spend anything on audio, show me the script. A good brief read badly still works. A bad brief read beautifully does not.
+## Get the script right before you spend anything
+
+Show me the script first. A good brief read badly still works. A bad brief read beautifully does not.
+
+Once the tone is right, send it to text-to-speech and save the mp3 where I can find it from my phone.
