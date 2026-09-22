@@ -73,4 +73,4 @@ Day 1–2: document your projects and your team. Day 3–4: document your proces
 
 ---
 
-Questions, or you built something good with this — [Maxime Gaudin](https://www.linkedin.com/in/maximegaudin/), VP Engineering at [Gladia](https://www.gladia.io).
+Questions, or you built something good with this — [Maxime Gaudin](https://www.linkedin.com/in/maximegaudin/), CTO at [Gladia](https://www.gladia.io).
