@@ -59,6 +59,14 @@ When an answer comes back wrong, resist fixing that one answer. Fix the instruct
 
 `daily-routine` is the exception. It is the heavy one and it took months of iteration to settle. Take it as it is, live with it for a few weeks, then start tuning.
 
+## Two skills I did not write
+
+Skills are files, so the good ones travel. These two are not mine, are not about second brains, and are on every machine I work from.
+
+[adhd](https://github.com/UditAkhourii/adhd) — `npx skills add UditAkhourii/adhd`. Instead of answering your question once, it asks it six ways in parallel under different framings, scores the answers, throws out the traps and deepens what survives. Use it on naming, design decisions and anything shaped like "give me a few ways to…".
+
+[caveman](https://github.com/JuliusBrussee/caveman) — `npx skills add JuliusBrussee/caveman -g`. Same answers, a quarter of the words. Code, paths and error messages are left alone; only the throat-clearing around them dies.
+
 ## Rules worth keeping
 
 - Plain markdown only. The folder is the product; the editor is replaceable.
