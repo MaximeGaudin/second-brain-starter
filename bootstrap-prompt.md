@@ -25,18 +25,21 @@ Create README.md at the root of the folder. It documents the structure above, an
 
 STEP 3 — Interview me
 
-Ask me these questions ONE AT A TIME. Wait for my answer before asking the next one. Do not answer them for me.
+Ask me these three questions ONE AT A TIME. Wait for my answer before asking the next one. Do not answer them for me, and do not invent extra questions.
 
-  1. What is your name and job title?
-  2. What company do you work for, and what does it do in one sentence?
-  3. Who are the three to five people you work with most, and what does each of them own?
-  4. What are the two things you are actually responsible for this quarter?
-  5. What should I never do without asking you first?
+  1. Describe yourself in a few sentences — your role, the company you work for, and what you actually spend your days doing.
+  2. Name a few colleagues you work with most often, and say what each of them owns.
+  3. What are your objectives for this quarter?
 
-Then write, from my answers:
+Then, before you write anything, search the web for the company I named in answer 1. Find what it sells and who it sells to, its size and stage, its products, and anything public from the last twelve months. Where you cannot confirm something, mark it unverified rather than filling the gap.
 
-  me/context.md      — answers 1, 2, 4 and 5, plus a "how to answer me" section built from answer 5
-  team/<name>.md     — one short file per person from answer 3, with what they own
+Then write, from my answers and your research:
+
+  me/context.md      — answers 1 and 3 in my own words, and nothing you inferred
+  me/company.md      — what you found on the web, every claim followed by the URL it came from
+  team/<name>.md     — one short file per person from answer 2, with what they own
+
+Show me me/company.md before you move on. It is the only file here you wrote rather than I did, so I would rather correct it now than find it wrong in a month.
 
 STEP 4 — Give me something to query
 
