@@ -67,6 +67,14 @@ Skills are files, so the good ones travel. These two are not mine, are not about
 
 [caveman](https://github.com/JuliusBrussee/caveman) — `npx skills add JuliusBrussee/caveman -g`. Same answers, a quarter of the words. Code, paths and error messages are left alone; only the throat-clearing around them dies.
 
+## The slides
+
+[`slides/second-brain-workshop.pdf`](slides/second-brain-workshop.pdf) — all 58 slides, static, for reading on a train.
+
+[`slides/second-brain-workshop.html`](slides/second-brain-workshop.html) — the same deck with the animations intact. Download it and open it; it needs no server and no network. Arrow keys move between slides.
+
+Both were built out of a folder like this one, by the two skills above.
+
 ## Rules worth keeping
 
 - Plain markdown only. The folder is the product; the editor is replaceable.
